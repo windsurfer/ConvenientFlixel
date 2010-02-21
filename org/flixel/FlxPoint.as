@@ -20,10 +20,15 @@ package org.flixel
 		 * @param	X		The X-coordinate of the point in space.
 		 * @param	Y		The Y-coordinate of the point in space.
 		 */
-		public function FlxPoint(X:Number=0, Y:Number=0)
+		public function FlxPoint(...args)
 		{
-			x = X;
-			y = Y;
+			if (args[0] && args[0] is FlxObject) {
+				x = args[0].x || 0;
+				y = args[0].y || 0;
+			}else{
+				x = args[0] || 0;
+				y = args[1] || 0;
+			}
 		}
 		
 		/**
@@ -32,6 +37,10 @@ package org.flixel
 		public function toString():String
 		{
 			return FlxU.getClassName(this,true);
+		}
+		
+		public function GetDistanceTo(OtherPoint:FlxPoint):Number {
+			return Math.sqrt( Math.pow(this.x - OtherPoint.x, 2) + Math.pow(this.y - OtherPoint.y, 2));
 		}
 	}
 }

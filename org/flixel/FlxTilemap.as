@@ -154,7 +154,7 @@ package org.flixel
 			
 			//Then go through and create the actual map
 			width = widthInTiles*_tileWidth;
-			height = heightInTiles*_tileHeight;
+			height = (heightInTiles -1)*_tileHeight;
 			_rects = new Array(totalTiles);
 			for(i = 0; i < totalTiles; i++)
 				updateTile(i);
