@@ -68,6 +68,13 @@ package org.flixel
 		 * NOTE: Edit at your own risk!!  This is intended to be read-only.
 		 */
 		public var frameHeight:uint;
+		/**
+		 * Whether the object should render repeated
+		 * NOTE: Will not change hit detection
+		 */
+		public var repeat:Boolean;
+		
+		
 		
 		//Animation helpers
 		protected var _animations:Array;
@@ -120,6 +127,7 @@ package org.flixel
 			blend = null;
 			antialiasing = false;
 			
+			repeat = false;
 			finished = false;
 			_facing = RIGHT;
 			_animations = new Array();

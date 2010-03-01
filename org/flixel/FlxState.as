@@ -23,6 +23,10 @@ package org.flixel
 		 */
 		static public var screen:FlxSprite;
 		/**
+		 * This static variable holds the HUD
+		 */
+		static public var hud:FlxGroup;
+		/**
 		 * This static variable indicates the "clear color"
 		 * or default background color of the game.
 		 * Change it at ANY time using <code>FlxState.bgColor</code>.
@@ -37,6 +41,8 @@ package org.flixel
 		 * Creates a new <code>FlxState</code> object,
 		 * instantiating <code>screen</code> if necessary.
 		 */
+		
+		
 		public function FlxState()
 		{
 			super();
@@ -48,6 +54,14 @@ package org.flixel
 				screen.origin.x = screen.origin.y = 0;
 				screen.antialiasing = true;
 			}
+			if (hud == null) {
+				hud = new FlxGroup();
+			}
+		}
+		
+		
+		public function reset():void {
+			defaultGroup.destroy();
 		}
 		
 		/**
@@ -71,6 +85,47 @@ package org.flixel
 		}
 		
 		/**
+		 * Adds a new FlxCore subclass (FlxSprite, FlxBlock, etc) to the game loop.
+		 * FlxState is adding this object to its built-in FlxGroup to automate updating and rendering.
+		 * 
+		 * @param	Core	The object you want to add to the game loop.
+		 * @param	Index	The index you want it at
+		 */
+		public function addAt(Core:FlxObject, Index:int):FlxObject
+		{
+			return defaultGroup.addAt(Core, Index);
+		}
+		
+		/**
+		 * Adds a new FlxCore subclass (FlxSprite, FlxBlock, etc) to the game loop behind another object
+		 * FlxState is adding this object to its built-in FlxGroup to automate updating and rendering.
+		 * 
+		 * @param	Core	The object you want to add to the game loop.
+		 * @param	Core2	The Object that will be in front
+		 */
+		public function addBehind(Core:FlxObject, Core2:FlxObject):FlxObject
+		{
+			
+			return defaultGroup.addAt(Core, getIndexOf(Core2));
+		}
+		
+		public function remove(Core:FlxObject):void {
+			defaultGroup.remove(Core, true);
+		}
+		
+		
+		/**
+		 * Returns the index of the object in the group
+		 *
+		 * @param	Object			The object you want to add
+		 *
+		 * @return	The index of the object. Returns -1 if none was found.
+		 */
+		public function getIndexOf(Object:FlxObject):int
+		{
+			return defaultGroup.getIndexOf(Object);
+		}
+		/**
 		 * Override this function to do special pre-processing FX like motion blur.
 		 * You can use scaling or blending modes or whatever you want against
 		 * <code>FlxState.screen</code> to achieve all sorts of cool FX.
@@ -87,6 +142,7 @@ package org.flixel
 		public function update():void
 		{
 			defaultGroup.update();
+			hud.update();
 		}
 		
 		/**
@@ -105,6 +161,7 @@ package org.flixel
 		public function render():void
 		{
 			defaultGroup.render();
+			hud.render();
 		}
 
 		/**

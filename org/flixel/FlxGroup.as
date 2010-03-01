@@ -47,6 +47,35 @@ package org.flixel
 		}
 		
 		/**
+		 * Adds a new <code>FlxObject</code> subclass (FlxSprite, FlxBlock, etc) to the list of children at a specific index
+		 *
+		 * @param	Object			The object you want to add
+		 * @param	Index			The index you want it at
+		 * @param	ShareScroll		Whether or not this FlxCore should sync up with this layer's scrollFactor
+		 *
+		 * @return	The same <code>FlxCore</code> object that was passed in.
+		 */
+		public function addAt(Object:FlxObject,Index:int, ShareScroll:Boolean=false):FlxObject
+		{
+			members.splice(Index, 0, Object);
+			if(ShareScroll)
+				Object.scrollFactor = scrollFactor;
+			return Object;
+		}
+		
+		/**
+		 * Returns the index of the object in the group
+		 *
+		 * @param	Object			The object you want to add
+		 *
+		 * @return	The index of the object. Returns -1 if none was found.
+		 */
+		public function getIndexOf(Object:FlxObject):int
+		{
+			return members.indexOf(Object);
+		}
+		
+		/**
 		 * Replaces an existing <code>FlxObject</code> with a new one.
 		 * 
 		 * @param	OldObject	The object you want to replace.
@@ -308,6 +337,7 @@ package org.flixel
 		{
 			var mx:Number;
 			var my:Number;
+			var members:Array = this.members.slice();
 			var moved:Boolean = false;
 			if((x != _last.x) || (y != _last.y))
 			{

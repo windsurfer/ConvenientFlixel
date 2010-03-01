@@ -203,6 +203,15 @@ package org.flixel
 		}
 		
 		/**
+		 *  
+		 */
+		static public function showDialog(Message:Array):void
+		{
+			_game.showDialog(Message);
+		}
+		
+		
+		/**
 		 * Reset the input helper objects (useful when changing screens or states)
 		 */
 		static public function resetInput():void

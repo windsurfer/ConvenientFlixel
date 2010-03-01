@@ -47,6 +47,11 @@ package org.flixel
 		 */
 		public var pause:FlxGroup;
 		
+		/**
+		 * Object for displaying dialog messages while the game is paused
+		 */
+		public var dialog:FlxDialog;
+		
 		//startup
 		internal var _iState:Class;
 		internal var _created:Boolean;
@@ -67,6 +72,7 @@ package org.flixel
 		internal var _elapsed:Number;
 		internal var _total:uint;
 		internal var _paused:Boolean;
+		internal var _dialog:Boolean;
 		
 		//Pause screen, sound tray, support panel, dev console, and special effects objects
 		internal var _soundTray:Sprite;
@@ -92,6 +98,7 @@ package org.flixel
 			_elapsed = 0;
 			_total = 0;
 			pause = new FlxPause();
+			dialog = new FlxDialog();
 			_state = null;
 			_iState = InitialState;
 
@@ -101,6 +108,7 @@ package org.flixel
 			_gameXOffset = 0;
 			_gameYOffset = 0;
 			
+			_dialog = false;
 			_paused = false;
 			_created = false;
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -183,11 +191,6 @@ package org.flixel
 		 */
 		protected function onKeyUp(event:KeyboardEvent):void
 		{
-			if((event.keyCode == 192) || (event.keyCode == 220)) //FOR ZE GERMANZ
-			{
-				_console.toggle();
-				return;
-			}
 			if(useDefaultHotKeys)
 			{
 				var c:int = event.keyCode;
@@ -209,7 +212,8 @@ package org.flixel
 			    		showSoundTray();
 						return;
 					case 80:
-						FlxG.pause = !FlxG.pause;
+						if (_dialog == false)
+							FlxG.pause = !FlxG.pause;
 					default: break;
 				}
 			}
@@ -221,7 +225,7 @@ package org.flixel
 		 */
 		protected function onFocus(event:Event=null):void
 		{
-			if(FlxG.pause)
+			if(FlxG.pause && _dialog == false)
 				FlxG.pause = false;
 		}
 		
@@ -230,7 +234,8 @@ package org.flixel
 		 */
 		protected function onFocusLost(event:Event=null):void
 		{
-			FlxG.pause = true;
+			if (_dialog == false)
+				FlxG.pause = true;
 		}
 		
 		/**
@@ -262,6 +267,27 @@ package org.flixel
 			_paused = true;
 			stage.frameRate = 10;
 		}
+		
+		/**
+		 * Internal function to help with dialog showing and pause game functionality.
+		 */
+		internal function showDialog(Message:Array):void
+		{
+			if((x != 0) || (y != 0))
+			{
+				x = 0;
+				y = 0;
+			}
+			if(!_flipped)
+				_bmpBack.bitmapData.copyPixels(_bmpFront.bitmapData,_r,new Point(0,0));
+			else
+				_bmpFront.bitmapData.copyPixels(_bmpBack.bitmapData, _r, new Point(0, 0));
+			
+			dialog.message = Message;
+			_dialog = true;
+		}
+		
+		
 		
 		/**
 		 * This is the main game loop, but only once creation and logo playback is finished.
@@ -316,7 +342,16 @@ package org.flixel
 				//State updating
 				FlxG.updateInput();
 				FlxG.updateSounds();
-				if(_paused)
+				if (_dialog) {
+					dialog.update();
+					if(_flipped)
+						FlxG.buffer.copyPixels(_bmpFront.bitmapData,_r,new Point(0,0));
+					else
+						FlxG.buffer.copyPixels(_bmpBack.bitmapData, _r, new Point(0, 0));
+					dialog.render();
+					_dialog = !dialog.undialog();
+					
+				}else if(_paused)
 				{
 					pause.update();
 					if(_flipped)
