@@ -1,0 +1,11 @@
+I made some changes to flixel when I was making Condition (http://www.newgrounds.com/portal/view/529101) and thought it would be nice to share them with the community.
+
+It isn't the greatest code... but it may be helpful!
+
+Features:
+
+* 1. A new class: FlxDialog. It's basically just a different pause screen that you can send messages to through FlxG.showDialog().
+* 2. Another new class: FlxTilingSprite. It's a sprite with a hacked rendering loop that will draw itself only on the screen and repeat. You can set it to vertical, horizontal, or both.
+* 3. Some minor tweaks: 
+	1. FlxPoint can be either an FlxObject or two (x,y) numbers. 
+	2. FlxState now has an easy-to-use built in HUD reference that will always be drawn on top. You can put whatever FlxObject you want in there! Especially useful for FlxGroups Smiley
