@@ -8,4 +8,5 @@ Features:
 * 2. Another new class: FlxTilingSprite. It's a sprite with a hacked rendering loop that will draw itself only on the screen and repeat. You can set it to vertical, horizontal, or both.
 * 3. Some minor tweaks: 
 	1. FlxPoint can be either an FlxObject or two (x,y) numbers. 
-	2. FlxState now has an easy-to-use built in HUD reference that will always be drawn on top. You can put whatever FlxObject you want in there! Especially useful for FlxGroups Smiley
+	2. FlxState now has an easy-to-use built in HUD reference that will always be drawn on top. You can put whatever FlxObject you want in there! Especially useful for FlxGroups 
+	3. FlxState now has an addAt and an addBehind method. They add objects at a specific point on the stage (so you don't have to fiddle with FlxGroup layers)
