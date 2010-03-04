@@ -67,6 +67,7 @@ package org.flixel
 		internal var _gameXOffset:int;
 		internal var _gameYOffset:int;
 		internal var _frame:Class;
+		internal var _zeroPoint:Point;
 		
 		//basic update stuff
 		internal var _elapsed:Number;
@@ -101,6 +102,7 @@ package org.flixel
 			dialog = new FlxDialog();
 			_state = null;
 			_iState = InitialState;
+			_zeroPoint = new Point();
 
 			useDefaultHotKeys = true;
 			
@@ -201,11 +203,17 @@ package org.flixel
 						FlxG.mute = !FlxG.mute;
 						showSoundTray();
 						return;
+					case 96:
+						FlxG.mute = !FlxG.mute;
+						showSoundTray();
+						return;
+					case 109:
 					case 189:
 						FlxG.mute = false;
 			    		FlxG.volume = FlxG.volume - 0.1;
 			    		showSoundTray();
 						return;
+					case 107:
 					case 187:
 						FlxG.mute = false;
 			    		FlxG.volume = FlxG.volume + 0.1;
@@ -260,9 +268,9 @@ package org.flixel
 				y = 0;
 			}
 			if(!_flipped)
-				_bmpBack.bitmapData.copyPixels(_bmpFront.bitmapData,_r,new Point(0,0));
+				_bmpBack.bitmapData.copyPixels(_bmpFront.bitmapData,_r,_zeroPoint);
 			else
-				_bmpFront.bitmapData.copyPixels(_bmpBack.bitmapData,_r,new Point(0,0));
+				_bmpFront.bitmapData.copyPixels(_bmpBack.bitmapData,_r,_zeroPoint);
 			flash.ui.Mouse.show();
 			_paused = true;
 			stage.frameRate = 10;
@@ -342,6 +350,7 @@ package org.flixel
 				//State updating
 				FlxG.updateInput();
 				FlxG.updateSounds();
+				
 				if (_dialog) {
 					dialog.update();
 					if(_flipped)
@@ -355,9 +364,9 @@ package org.flixel
 				{
 					pause.update();
 					if(_flipped)
-						FlxG.buffer.copyPixels(_bmpFront.bitmapData,_r,new Point(0,0));
+						FlxG.buffer.copyPixels(_bmpFront.bitmapData,_r,_zeroPoint);
 					else
-						FlxG.buffer.copyPixels(_bmpBack.bitmapData,_r,new Point(0,0));
+						FlxG.buffer.copyPixels(_bmpBack.bitmapData,_r,_zeroPoint);
 					pause.render();
 				}
 				else

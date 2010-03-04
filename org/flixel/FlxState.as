@@ -41,8 +41,6 @@ package org.flixel
 		 * Creates a new <code>FlxState</code> object,
 		 * instantiating <code>screen</code> if necessary.
 		 */
-		
-		
 		public function FlxState()
 		{
 			super();
